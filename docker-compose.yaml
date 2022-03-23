@@ -1,5 +1,9 @@
----
 version: "3.5"
+
+networks:
+  mail:
+    name: mail
+
 services:
   postfix:
     image: postfixdocker
@@ -9,6 +13,3 @@ services:
     env_file: env
     networks:
       - mail
-networks:
-  mail:
-    name: mail
