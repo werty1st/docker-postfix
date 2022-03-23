@@ -15,7 +15,12 @@ postconf -e "mynetworks = ${mynetworks:-192.168.0.0/16,172.16.0.0/12}"
 postconf -e "myorigin = ${mydomain}"
 postconf -e "relayhost = [${relayhost}]:${relayport:-587}"
 postconf -e "smtp_host_lookup = native,dns"
-postconf -e "smtp_sasl_auth_enable = yes"
+if [ -z "${relaypassword}" ]
+then
+    postconf -e "smtp_sasl_auth_enable = no" #google relay secured by ip
+else
+    postconf -e "smtp_sasl_auth_enable = yes"
+fi
 postconf -e "smtp_sasl_password_maps = hash:/etc/postfix/sasl_password"
 postconf -e "smtp_sasl_security_options = noanonymous"
 postconf -e "smtp_use_tls = yes"
